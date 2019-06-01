@@ -49,7 +49,9 @@ function reducer(state = initialState, action) {
 function applyStartGame(state) {
   return {
     ...state,
-    isPlaying: true
+    isPlaying: true,
+    selecteds: [],
+    turn: 'P1'
   };
 }
 
