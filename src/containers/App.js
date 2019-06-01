@@ -4,6 +4,9 @@ import BingoContainer from './GameContainer';
 import { Button } from '../components/Button';
 import './App.css';
 
+import { connect } from 'react-redux';
+import { actionCreators as actions } from '../reducer';
+
 function App() {
   return (
     <>
@@ -17,4 +20,11 @@ function App() {
   );
 }
 
-export default App;
+const mapToDispatch = dispatch => ({
+  onStartGame: () => dispatch(actions.startGame())
+});
+
+export default connect(
+  null,
+  mapToDispatch
+)(App);
