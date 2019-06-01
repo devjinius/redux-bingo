@@ -1,0 +1,14 @@
+.bingo {
+  width: 100%;
+}
+
+.bingo td {
+  border: 1px solid #000;
+  text-align: center;
+  height: 3rem;
+}
+
+td.clicked {
+  background-color: #e5dbff;
+  border: 1px solid #9775fa;
+}

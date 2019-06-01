@@ -1,0 +1,9 @@
+.bingoBoard {
+  display: flex;
+}
+
+.playArea {
+  width: 50%;
+  padding: 1.5rem;
+  box-sizing: border-box;
+}
