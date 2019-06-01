@@ -118,7 +118,9 @@ const getBingoList = (newBoard, bingoList, x, y) => {
   }
 
   if (count === 5) {
-    bingoList.push(`가로 : ${x + 1}`);
+    if (!bingoList.includes(`가로 : ${x + 1}`)) {
+      bingoList.push(`가로 : ${x + 1}`);
+    }
   }
 
   // 세로
@@ -130,7 +132,9 @@ const getBingoList = (newBoard, bingoList, x, y) => {
   }
 
   if (count === 5) {
-    bingoList.push(`세로 : ${x + 1}`);
+    if (!bingoList.includes(`세로 : ${y + 1}`)) {
+      bingoList.push(`세로 : ${y + 1}`);
+    }
   }
 
   // 대각선 1
@@ -142,7 +146,9 @@ const getBingoList = (newBoard, bingoList, x, y) => {
     }
 
     if (count === 5) {
-      bingoList.push(`대각선1`);
+      if (!bingoList.includes(`대각선1`)) {
+        bingoList.push(`대각선1`);
+      }
     }
   }
 
@@ -155,7 +161,9 @@ const getBingoList = (newBoard, bingoList, x, y) => {
     }
 
     if (count === 5) {
-      bingoList.push(`대각선2`);
+      if (!bingoList.includes(`대각선2`)) {
+        bingoList.push(`대각선2`);
+      }
     }
   }
 
