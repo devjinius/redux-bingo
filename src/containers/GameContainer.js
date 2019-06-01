@@ -10,12 +10,6 @@ import './GameContainer.css';
 class GameContainer extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      players: {
-        P1: Array.from(Array(25), _ => ''),
-        P2: Array.from(Array(25), _ => '')
-      }
-    };
   }
 
   getBingo(playerArray) {
@@ -43,18 +37,29 @@ class GameContainer extends Component {
       return (
         <div className="playArea" key={player}>
           <h2>{player}</h2>
-          <Bingo bingo={getBingo(array)} onSelect={handleSelect.bind(this)} selecteds={selecteds} />
+          <Bingo
+            player={player}
+            bingo={getBingo(array)}
+            onSelect={handleSelect.bind(this)}
+            selecteds={selecteds}
+          />
           <Complete />
         </div>
       );
     });
   }
 
-  handleSelect(num) {
+  handleSelect(player, num) {
     if (!this.props.isPlaying) {
       alert('게임 시작을 눌러주세요!');
       return;
     }
+
+    if (player !== this.props.turn) {
+      alert('잘못된 차례입니다');
+      return;
+    }
+
     this.props.selectNum(num);
   }
 
@@ -66,11 +71,12 @@ class GameContainer extends Component {
 }
 
 const mapStateToProps = state => {
-  const { isPlaying, rawBingos, selecteds } = state;
+  const { isPlaying, rawBingos, selecteds, turn } = state;
   return {
     isPlaying,
     rawBingos,
-    selecteds
+    selecteds,
+    turn
   };
 };
 

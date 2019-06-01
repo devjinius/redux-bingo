@@ -29,7 +29,8 @@ const initialState = {
     P1: Array.from(Array(25), _ => ''),
     P2: Array.from(Array(25), _ => '')
   },
-  selecteds: []
+  selecteds: [],
+  turn: 'P1'
 };
 
 function reducer(state = initialState, action) {
@@ -63,9 +64,11 @@ function applyLoadBingo(state, p1Nums, p2Nums) {
 }
 
 function applySelectNum(state, num) {
+  const nextTurn = state.turn === 'P1' ? 'P2' : 'P1';
   return {
     ...state,
-    selecteds: [...state.selecteds, num]
+    selecteds: [...state.selecteds, num],
+    turn: nextTurn
   };
 }
 

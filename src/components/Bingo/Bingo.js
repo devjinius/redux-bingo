@@ -3,7 +3,7 @@ import './Bingo.css';
 
 const isActive = (selecteds, v) => selecteds.includes(v);
 
-const Bingo = ({ bingo, onSelect, selecteds }) => {
+const Bingo = ({ player, bingo, onSelect, selecteds }) => {
   return (
     <table className="bingo">
       <tbody>
@@ -14,7 +14,7 @@ const Bingo = ({ bingo, onSelect, selecteds }) => {
                 <td
                   className={isActive(selecteds, v) ? 'selected' : ''}
                   key={i}
-                  onClick={e => onSelect(v)}
+                  onClick={e => onSelect(player, v)}
                 >
                   {v}
                 </td>
