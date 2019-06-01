@@ -1,32 +1,65 @@
-import React from 'react';
-import './GameContainer.css';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { actionCreators as actions } from '../reducer';
 
 import { Bingo } from '../components/Bingo';
 import { Complete } from '../components/Complete';
 
-const BingoBoard = () => {
-  return (
-    <div className="bingoBoard">
-      <div className="playArea">
-        <h2>P1</h2>
-        <Bingo />
-        <Complete />
+import './GameContainer.css';
+class GameContainer extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+
+  getBingo(playerArray) {
+    const row = [];
+
+    return playerArray.reduce((acc, cur, i) => {
+      if (i % 5 === 4) {
+        row.push(cur);
+        acc = [...acc, [...row]];
+        row.length = 0;
+        return acc;
+      }
+
+      row.push(cur);
+      return acc;
+    }, []);
+  }
+
+  render() {
+    return (
+      <div className="bingoBoard">
+        <div className="playArea">
+          <h2>P1</h2>
+          <Bingo bingo={this.getBingo(this.props.p1Array)} />
+          <Complete />
+        </div>
+        <div className="playArea">
+          <h2>P2</h2>
+          <Bingo bingo={this.getBingo(this.props.p2Array)} />
+          <Complete />
+        </div>
       </div>
-      <div className="playArea">
-        <h2>P2</h2>
-        <Bingo />
-        <Complete />
-      </div>
-    </div>
-  );
+    );
+  }
+}
+
+const mapStateToProps = state => {
+  const { isPlaying, p1Array, p2Array } = state;
+  return {
+    isPlaying,
+    p1Array,
+    p2Array
+  };
 };
 
-BingoBoard.defaultProps = {
-  // number: 0,
-  // color: 'black',
-  // onIncrement: () => console.warn('onIncrement not defined'),
-  // onDecrement: () => console.warn('onDecrement not defined'),
-  // onSetColor: () => console.warn('onSetColor not defined')
+const mapDispatchToProps = dispatch => {
+  return {};
 };
 
-export default BingoBoard;
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(GameContainer);

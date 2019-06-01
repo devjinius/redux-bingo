@@ -7,7 +7,7 @@ export const getRandomArray = () => {
     numbers[insert] = Math.floor(Math.random() * 25) + 1;
 
     for (search = 0; search < insert; search++) {
-      if (numbers[insert] == numbers[search]) {
+      if (numbers[insert] === numbers[search]) {
         insert--;
         break;
       }

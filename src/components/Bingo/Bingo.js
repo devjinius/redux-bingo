@@ -1,20 +1,16 @@
 import React from 'react';
 import './Bingo.css';
 
-const Bingo = () => {
+const Bingo = ({ bingo }) => {
   return (
     <table className="bingo">
       <tbody>
-        {[1, 2, 3, 4, 5].map(v => {
+        {bingo.map(row => {
           return (
             <tr>
-              <td className="clicked" onClick={e => console.log(e)}>
-                {v}
-              </td>
-              <td>{v}</td>
-              <td>{v}</td>
-              <td>{v}</td>
-              <td>{v}</td>
+              {row.map(v => (
+                <td onClick={e => console.log(e)}>{v}</td>
+              ))}
             </tr>
           );
         })}
