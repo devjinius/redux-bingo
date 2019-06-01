@@ -34,7 +34,8 @@ const initialState = {
     P2: []
   },
   turn: 'P1',
-  winner: ''
+  winner: '',
+  isComplete: false
 };
 
 function reducer(state = initialState, action) {
@@ -59,7 +60,8 @@ function applyStartGame(state) {
     },
     isPlaying: true,
     turn: 'P1',
-    winner: ''
+    winner: '',
+    isComplete: false
   };
 }
 
@@ -77,13 +79,15 @@ function applySelectNum(state, num) {
   const nextTurn = state.turn === 'P1' ? 'P2' : 'P1';
   const [newBoard, newBingoList] = getNewList({ ...state.bingoBoard }, { ...state.bingoList }, num);
   const winner = getWinner(newBingoList);
+  const isComplete = winner === '' ? false : true;
 
   return {
     ...state,
     bingoBoard: newBoard,
     bingoList: newBingoList,
     turn: nextTurn,
-    winner
+    winner,
+    isComplete
   };
 }
 

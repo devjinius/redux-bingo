@@ -8,21 +8,30 @@ import './Bingo.css';
 
 class Bingo extends Component {
   async handleSelect(player, num) {
-    if (!this.props.isPlaying) {
+    const { isComplete, isPlaying, turn, selectNum } = this.props;
+
+    if (isComplete) {
+      alert('재시작을 눌러주세요!');
+      return;
+    }
+
+    if (!isPlaying) {
       alert('게임 시작을 눌러주세요!');
       return;
     }
 
-    if (player !== this.props.turn) {
+    if (player !== turn) {
       alert('잘못된 차례입니다');
       return;
     }
-    await this.props.selectNum(num);
+
+    await selectNum(num);
 
     const { winner } = this.props;
     if (winner !== '') {
       if (winner === '무승부') {
         alert('무승부입니다');
+        return;
       }
 
       alert(`${winner}가 빙고를 완성했습니다.`);
@@ -53,11 +62,12 @@ class Bingo extends Component {
 }
 
 const mapStateToProps = state => {
-  const { isPlaying, turn, winner } = state;
+  const { isPlaying, turn, winner, isComplete } = state;
   return {
     isPlaying,
     turn,
-    winner
+    winner,
+    isComplete
   };
 };
 
