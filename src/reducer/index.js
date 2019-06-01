@@ -10,8 +10,10 @@ function startGame() {
 
 const initialState = {
   isPlaying: false,
-  p1Array: Array.from(Array(25), _ => ''),
-  p2Array: Array.from(Array(25), _ => '')
+  rawBingos: {
+    P1: Array.from(Array(25), _ => ''),
+    P2: Array.from(Array(25), _ => '')
+  }
 };
 
 function reducer(state = initialState, action) {
@@ -27,8 +29,10 @@ function applyStartGame(state) {
   return {
     ...state,
     isPlaying: true,
-    p1Array: utils.getRandomArray(),
-    p2Array: utils.getRandomArray()
+    rawBingos: {
+      P1: utils.getRandomArray(),
+      P2: utils.getRandomArray()
+    }
   };
 }
 

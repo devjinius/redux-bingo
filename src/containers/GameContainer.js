@@ -6,10 +6,13 @@ import { Bingo } from '../components/Bingo';
 import { Complete } from '../components/Complete';
 
 import './GameContainer.css';
+
 class GameContainer extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      players: ['player1', 'player2']
+    };
   }
 
   getBingo(playerArray) {
@@ -29,29 +32,26 @@ class GameContainer extends Component {
   }
 
   render() {
-    return (
-      <div className="bingoBoard">
-        <div className="playArea">
-          <h2>P1</h2>
-          <Bingo bingo={this.getBingo(this.props.p1Array)} />
+    const bingos = Object.entries(this.props.rawBingos).map(e => {
+      const [player, array] = e;
+      return (
+        <div className="playArea" key={player}>
+          <h2>{player}</h2>
+          <Bingo bingo={this.getBingo(array)} />
           <Complete />
         </div>
-        <div className="playArea">
-          <h2>P2</h2>
-          <Bingo bingo={this.getBingo(this.props.p2Array)} />
-          <Complete />
-        </div>
-      </div>
-    );
+      );
+    });
+
+    return <div className="bingoBoard">{bingos}</div>;
   }
 }
 
 const mapStateToProps = state => {
-  const { isPlaying, p1Array, p2Array } = state;
+  const { isPlaying, rawBingos } = state;
   return {
     isPlaying,
-    p1Array,
-    p2Array
+    rawBingos
   };
 };
 
