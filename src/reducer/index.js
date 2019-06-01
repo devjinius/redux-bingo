@@ -1,10 +1,19 @@
 import * as utils from '../util';
 
 const START_GAME = 'START_GAME';
+const LOAD_BINGO = 'LOAD_BINGO';
 
 function startGame() {
   return {
     type: START_GAME
+  };
+}
+
+function loadBingo(p1Nums, p2Nums) {
+  return {
+    type: LOAD_BINGO,
+    p1Nums,
+    p2Nums
   };
 }
 
@@ -20,6 +29,8 @@ function reducer(state = initialState, action) {
   switch (action.type) {
     case START_GAME:
       return applyStartGame(state);
+    case LOAD_BINGO:
+      return applyLoadBingo(state, action.p1Nums, action.p2Nums);
     default:
       return state;
   }
@@ -28,16 +39,23 @@ function reducer(state = initialState, action) {
 function applyStartGame(state) {
   return {
     ...state,
-    isPlaying: true,
+    isPlaying: true
+  };
+}
+
+function applyLoadBingo(state, p1Nums, p2Nums) {
+  return {
+    ...state,
     rawBingos: {
-      P1: utils.getRandomArray(),
-      P2: utils.getRandomArray()
+      P1: p1Nums,
+      P2: p2Nums
     }
   };
 }
 
 const actionCreators = {
-  startGame
+  startGame,
+  loadBingo
 };
 
 export { actionCreators };

@@ -6,16 +6,27 @@ import './App.css';
 
 import { connect } from 'react-redux';
 import { actionCreators as actions } from '../reducer';
+import { getRandomArray } from '../util';
 
 class App extends Component {
   render() {
-    const { isPlaying, onStartGame } = this.props;
+    const { isPlaying } = this.props;
+
+    const startHandler = () => {
+      const { onStartGame, loadBingo } = this.props;
+      onStartGame();
+
+      const p1Nums = getRandomArray();
+      const p2Nums = getRandomArray();
+
+      loadBingo(p1Nums, p2Nums);
+    };
 
     return (
       <>
         <header>
           <h1>Hello, This is Bingo</h1>
-          <Button clickHandler={onStartGame} playingStatus={isPlaying} />
+          <Button clickHandler={startHandler} playingStatus={isPlaying} />
         </header>
 
         <BingoContainer />
@@ -32,7 +43,8 @@ const mapStateToProps = state => {
 };
 
 const mapToDispatch = dispatch => ({
-  onStartGame: () => dispatch(actions.startGame())
+  onStartGame: () => dispatch(actions.startGame()),
+  loadBingo: (p1Nums, p2Nums) => dispatch(actions.loadBingo(p1Nums, p2Nums))
 });
 
 export default connect(

@@ -11,7 +11,10 @@ class GameContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      players: ['player1', 'player2']
+      players: {
+        P1: Array.from(Array(25), _ => ''),
+        P2: Array.from(Array(25), _ => '')
+      }
     };
   }
 
@@ -31,8 +34,8 @@ class GameContainer extends Component {
     }, []);
   }
 
-  render() {
-    const bingos = Object.entries(this.props.rawBingos).map(e => {
+  getPlayerArea(rawBingos) {
+    return Object.entries(this.props.rawBingos).map(e => {
       const [player, array] = e;
       return (
         <div className="playArea" key={player}>
@@ -42,6 +45,10 @@ class GameContainer extends Component {
         </div>
       );
     });
+  }
+
+  render() {
+    const bingos = this.getPlayerArea(this.props.rawBingos);
 
     return <div className="bingoBoard">{bingos}</div>;
   }
