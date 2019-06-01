@@ -7,7 +7,7 @@ import { Cell } from '../components/Cell';
 import './Bingo.css';
 
 class Bingo extends Component {
-  handleSelect(player, num) {
+  async handleSelect(player, num) {
     if (!this.props.isPlaying) {
       alert('게임 시작을 눌러주세요!');
       return;
@@ -17,11 +17,20 @@ class Bingo extends Component {
       alert('잘못된 차례입니다');
       return;
     }
-    this.props.selectNum(num);
+    await this.props.selectNum(num);
+
+    const { winner } = this.props;
+    if (winner !== '') {
+      if (winner === '무승부') {
+        alert('무승부입니다');
+      }
+
+      alert(`${winner}가 빙고를 완성했습니다.`);
+    }
   }
 
   render() {
-    const { player, bingo, selecteds } = this.props;
+    const { player, bingo } = this.props;
 
     return (
       <table className="bingo">
@@ -29,9 +38,9 @@ class Bingo extends Component {
           {bingo.map((row, i) => {
             return (
               <tr key={i}>
-                {row.map((info, j) => (
-                  <td key={j} onClick={e => this.handleSelect(player, info.value)}>
-                    <Cell value={info.value} selecteds={selecteds} />
+                {row.map((cell, j) => (
+                  <td key={j} onClick={e => this.handleSelect(player, cell.value)}>
+                    <Cell value={cell.value} isChecked={cell.checked} />
                   </td>
                 ))}
               </tr>
@@ -44,11 +53,11 @@ class Bingo extends Component {
 }
 
 const mapStateToProps = state => {
-  const { isPlaying, selecteds, turn } = state;
+  const { isPlaying, turn, winner } = state;
   return {
     isPlaying,
-    selecteds,
-    turn
+    turn,
+    winner
   };
 };
 

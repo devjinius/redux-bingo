@@ -29,8 +29,12 @@ const initialState = {
     P1: Array.from(Array(5), () => Array(5).fill({ value: '', checked: false })),
     P2: Array.from(Array(5), () => Array(5).fill({ value: '', checked: false }))
   },
-  selecteds: [],
-  turn: 'P1'
+  bingoList: {
+    P1: [],
+    P2: []
+  },
+  turn: 'P1',
+  winner: ''
 };
 
 function reducer(state = initialState, action) {
@@ -49,9 +53,13 @@ function reducer(state = initialState, action) {
 function applyStartGame(state) {
   return {
     ...state,
+    bingoList: {
+      P1: [],
+      P2: []
+    },
     isPlaying: true,
-    selecteds: [],
-    turn: 'P1'
+    turn: 'P1',
+    winner: ''
   };
 }
 
@@ -67,36 +75,111 @@ function applyLoadBingo(state, p1Nums, p2Nums) {
 
 function applySelectNum(state, num) {
   const nextTurn = state.turn === 'P1' ? 'P2' : 'P1';
-  const newBoard = getNewBoard({ ...state.bingoBoard }, num);
+  const [newBoard, newBingoList] = getNewList({ ...state.bingoBoard }, { ...state.bingoList }, num);
+  const winner = getWinner(newBingoList);
 
   return {
     ...state,
     bingoBoard: newBoard,
-    selecteds: [...state.selecteds, num],
-    turn: nextTurn
+    bingoList: newBingoList,
+    turn: nextTurn,
+    winner
   };
 }
 
-const getNewBoard = (newBoard, num) => {
-  newBoard.P1.some(row => {
-    row.some(col => {
+const getWinner = newBingoList => {
+  if (newBingoList.P1.length >= 5 && newBingoList.P2.length >= 5) {
+    return '무승부';
+  }
+
+  if (newBingoList.P1.length >= 5) {
+    return 'P1';
+  }
+
+  if (newBingoList.P2.length >= 5) {
+    return 'P2';
+  }
+
+  return '';
+};
+
+const getBingoList = (newBoard, bingoList, x, y) => {
+  let count = 0;
+
+  // 가로
+  for (let i = 0; i < 5; i++) {
+    if (newBoard[x][i].checked) {
+      count += 1;
+    }
+  }
+
+  if (count === 5) {
+    bingoList.push(`가로 : ${x + 1}`);
+  }
+
+  // 세로
+  count = 0;
+  for (let i = 0; i < 5; i++) {
+    if (newBoard[i][y].checked) {
+      count += 1;
+    }
+  }
+
+  if (count === 5) {
+    bingoList.push(`세로 : ${x + 1}`);
+  }
+
+  // 대각선 1
+  if (x === y) {
+    count = 0;
+
+    for (let i = 0; i < 5; i++) {
+      if (newBoard[i][i].checked) count++;
+    }
+
+    if (count === 5) {
+      bingoList.push(`대각선1`);
+    }
+  }
+
+  // 대각선 2
+  if (x === 4 - y) {
+    count = 0;
+
+    for (let i = 0; i < 5; i++) {
+      if (newBoard[i][4 - i].checked) count++;
+    }
+
+    if (count === 5) {
+      bingoList.push(`대각선2`);
+    }
+  }
+
+  return bingoList;
+};
+
+const getNewList = (newBoard, bingoList, num) => {
+  newBoard.P1.map((row, i) => {
+    row.some((col, j) => {
       if (col.value === num) {
         col.checked = true;
+        bingoList.P1 = getBingoList(newBoard.P1, bingoList.P1, i, j);
         return true;
       }
     });
   });
 
-  newBoard.P2.some(row => {
-    row.some(col => {
+  newBoard.P2.map((row, i) => {
+    row.some((col, j) => {
       if (col.value === num) {
         col.checked = true;
+        bingoList.P2 = getBingoList(newBoard.P2, bingoList.P2, i, j);
         return true;
       }
     });
   });
 
-  return newBoard;
+  return [newBoard, bingoList];
 };
 
 const actionCreators = {

@@ -1,13 +1,16 @@
 import React from 'react';
 import './Complete.css';
 
-const Button = () => {
+const Complete = ({ bingoList }) => {
+  console.log(bingoList);
   return (
     <div>
       <h4>완료</h4>
-      <div>1 2 3 4 </div>
+      {bingoList.map(bingo => {
+        return <div>{bingo}</div>;
+      })}
     </div>
   );
 };
 
-export default Button;
+export default Complete;
