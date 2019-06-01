@@ -25,9 +25,9 @@ function selectNum(num) {
 
 const initialState = {
   isPlaying: false,
-  rawBingos: {
-    P1: Array.from(Array(25), _ => ''),
-    P2: Array.from(Array(25), _ => '')
+  bingoBoard: {
+    P1: Array.from(Array(5), () => Array(5).fill({ value: '', checked: false })),
+    P2: Array.from(Array(5), () => Array(5).fill({ value: '', checked: false }))
   },
   selecteds: [],
   turn: 'P1'
@@ -58,7 +58,7 @@ function applyStartGame(state) {
 function applyLoadBingo(state, p1Nums, p2Nums) {
   return {
     ...state,
-    rawBingos: {
+    bingoBoard: {
       P1: p1Nums,
       P2: p2Nums
     }
@@ -67,12 +67,37 @@ function applyLoadBingo(state, p1Nums, p2Nums) {
 
 function applySelectNum(state, num) {
   const nextTurn = state.turn === 'P1' ? 'P2' : 'P1';
+  const newBoard = getNewBoard({ ...state.bingoBoard }, num);
+
   return {
     ...state,
+    bingoBoard: newBoard,
     selecteds: [...state.selecteds, num],
     turn: nextTurn
   };
 }
+
+const getNewBoard = (newBoard, num) => {
+  newBoard.P1.some(row => {
+    row.some(col => {
+      if (col.value === num) {
+        col.checked = true;
+        return true;
+      }
+    });
+  });
+
+  newBoard.P2.some(row => {
+    row.some(col => {
+      if (col.value === num) {
+        col.checked = true;
+        return true;
+      }
+    });
+  });
+
+  return newBoard;
+};
 
 const actionCreators = {
   startGame,

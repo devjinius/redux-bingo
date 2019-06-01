@@ -12,14 +12,30 @@ class App extends Component {
   render() {
     const { isPlaying } = this.props;
 
+    const getBingo = array => {
+      const row = [];
+
+      return array.reduce((acc, cur, i) => {
+        if (i % 5 === 4) {
+          row.push({ value: cur, checked: false });
+          acc = [...acc, [...row]];
+          row.length = 0;
+          return acc;
+        }
+
+        row.push({ value: cur, checked: false });
+        return acc;
+      }, []);
+    };
+
     const startHandler = () => {
       const { onStartGame, loadBingo } = this.props;
       onStartGame();
 
-      const p1Nums = getRandomArray();
-      const p2Nums = getRandomArray();
+      const p1Bingo = getBingo(getRandomArray());
+      const p2Bingo = getBingo(getRandomArray());
 
-      loadBingo(p1Nums, p2Nums);
+      loadBingo(p1Bingo, p2Bingo);
     };
 
     return (

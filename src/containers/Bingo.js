@@ -17,7 +17,6 @@ class Bingo extends Component {
       alert('잘못된 차례입니다');
       return;
     }
-
     this.props.selectNum(num);
   }
 
@@ -30,9 +29,9 @@ class Bingo extends Component {
           {bingo.map((row, i) => {
             return (
               <tr key={i}>
-                {row.map((v, i) => (
-                  <td key={i} onClick={e => this.handleSelect(player, v)}>
-                    <Cell value={v} selecteds={selecteds} />
+                {row.map((info, j) => (
+                  <td key={j} onClick={e => this.handleSelect(player, info.value)}>
+                    <Cell value={info.value} selecteds={selecteds} />
                   </td>
                 ))}
               </tr>
