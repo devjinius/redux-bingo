@@ -8,12 +8,7 @@ import './Bingo.css';
 
 class Bingo extends Component {
   async handleSelect(player, num) {
-    const { isComplete, isPlaying, turn, selectNum } = this.props;
-
-    if (isComplete) {
-      alert('재시작을 눌러주세요!');
-      return;
-    }
+    const { isPlaying, turn, selectNum } = this.props;
 
     if (!isPlaying) {
       alert('게임 시작을 눌러주세요!');
@@ -63,12 +58,11 @@ class Bingo extends Component {
 }
 
 const mapStateToProps = state => {
-  const { isPlaying, turn, winner, isComplete } = state;
+  const { isPlaying, turn, winner } = state;
   return {
     isPlaying,
     turn,
-    winner,
-    isComplete
+    winner
   };
 };
 
