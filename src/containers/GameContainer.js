@@ -51,6 +51,10 @@ class GameContainer extends Component {
   }
 
   handleSelect(num) {
+    if (!this.props.isPlaying) {
+      alert('게임 시작을 눌러주세요!');
+      return;
+    }
     this.props.selectNum(num);
   }
 
