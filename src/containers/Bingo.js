@@ -30,7 +30,7 @@ class Bingo extends Component {
         alert(`${winner}가 빙고를 완성했습니다.`);
       }
 
-      await this.props.restartGame();
+      this.props.restartGame();
     }
   }
 
