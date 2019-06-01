@@ -1,7 +1,6 @@
-import * as utils from '../util';
-
 const START_GAME = 'START_GAME';
 const LOAD_BINGO = 'LOAD_BINGO';
+const SELECT_NUM = 'SELECT_NUM';
 
 function startGame() {
   return {
@@ -17,12 +16,20 @@ function loadBingo(p1Nums, p2Nums) {
   };
 }
 
+function selectNum(num) {
+  return {
+    type: SELECT_NUM,
+    num
+  };
+}
+
 const initialState = {
   isPlaying: false,
   rawBingos: {
     P1: Array.from(Array(25), _ => ''),
     P2: Array.from(Array(25), _ => '')
-  }
+  },
+  selecteds: []
 };
 
 function reducer(state = initialState, action) {
@@ -31,6 +38,8 @@ function reducer(state = initialState, action) {
       return applyStartGame(state);
     case LOAD_BINGO:
       return applyLoadBingo(state, action.p1Nums, action.p2Nums);
+    case SELECT_NUM:
+      return applySelectNum(state, action.num);
     default:
       return state;
   }
@@ -53,9 +62,17 @@ function applyLoadBingo(state, p1Nums, p2Nums) {
   };
 }
 
+function applySelectNum(state, num) {
+  return {
+    ...state,
+    selecteds: [...state.selecteds, num]
+  };
+}
+
 const actionCreators = {
   startGame,
-  loadBingo
+  loadBingo,
+  selectNum
 };
 
 export { actionCreators };

@@ -1,7 +1,9 @@
 import React from 'react';
 import './Bingo.css';
 
-const Bingo = ({ bingo }) => {
+const isActive = (selecteds, v) => selecteds.includes(v);
+
+const Bingo = ({ bingo, onSelect, selecteds }) => {
   return (
     <table className="bingo">
       <tbody>
@@ -9,7 +11,11 @@ const Bingo = ({ bingo }) => {
           return (
             <tr key={i}>
               {row.map((v, i) => (
-                <td key={i} onClick={e => console.log(e)}>
+                <td
+                  className={isActive(selecteds, v) ? 'selected' : ''}
+                  key={i}
+                  onClick={e => onSelect(v)}
+                >
                   {v}
                 </td>
               ))}

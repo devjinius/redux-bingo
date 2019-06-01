@@ -8,7 +8,7 @@
   height: 3rem;
 }
 
-td.clicked {
+td.selected {
   background-color: #e5dbff;
   border: 1px solid #9775fa;
 }

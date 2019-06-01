@@ -34,36 +34,46 @@ class GameContainer extends Component {
     }, []);
   }
 
-  getPlayerArea(rawBingos) {
-    return Object.entries(this.props.rawBingos).map(e => {
+  getPlayerArea() {
+    const { selecteds, rawBingos } = this.props;
+    const { getBingo, handleSelect } = this;
+
+    return Object.entries(rawBingos).map(e => {
       const [player, array] = e;
       return (
         <div className="playArea" key={player}>
           <h2>{player}</h2>
-          <Bingo bingo={this.getBingo(array)} />
+          <Bingo bingo={getBingo(array)} onSelect={handleSelect.bind(this)} selecteds={selecteds} />
           <Complete />
         </div>
       );
     });
   }
 
+  handleSelect(num) {
+    this.props.selectNum(num);
+  }
+
   render() {
-    const bingos = this.getPlayerArea(this.props.rawBingos);
+    const bingos = this.getPlayerArea();
 
     return <div className="bingoBoard">{bingos}</div>;
   }
 }
 
 const mapStateToProps = state => {
-  const { isPlaying, rawBingos } = state;
+  const { isPlaying, rawBingos, selecteds } = state;
   return {
     isPlaying,
-    rawBingos
+    rawBingos,
+    selecteds
   };
 };
 
 const mapDispatchToProps = dispatch => {
-  return {};
+  return {
+    selectNum: num => dispatch(actions.selectNum(num))
+  };
 };
 
 export default connect(
