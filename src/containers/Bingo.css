@@ -1,0 +1,8 @@
+.bingo {
+  width: 100%;
+}
+
+.bingo td {
+  height: 3rem;
+  text-align: center;
+}

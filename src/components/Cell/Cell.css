@@ -1,14 +1,12 @@
-.bingo {
+.cell {
   width: 100%;
-}
-
-.bingo td {
+  height: 100%;
   border: 1px solid #000;
   text-align: center;
-  height: 3rem;
+  background-color: white;
 }
 
-td.selected {
+.selected {
   background-color: #e5dbff;
   border: 1px solid #9775fa;
 }
