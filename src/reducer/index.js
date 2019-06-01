@@ -1,10 +1,17 @@
 const START_GAME = 'START_GAME';
+const RESTART_GAME = 'RESTART_GAME';
 const LOAD_BINGO = 'LOAD_BINGO';
 const SELECT_NUM = 'SELECT_NUM';
 
 function startGame() {
   return {
     type: START_GAME
+  };
+}
+
+function restartGame() {
+  return {
+    type: RESTART_GAME
   };
 }
 
@@ -42,6 +49,8 @@ function reducer(state = initialState, action) {
   switch (action.type) {
     case START_GAME:
       return applyStartGame(state);
+    case RESTART_GAME:
+      return applyRestartGame(state);
     case LOAD_BINGO:
       return applyLoadBingo(state, action.p1Nums, action.p2Nums);
     case SELECT_NUM:
@@ -63,6 +72,10 @@ function applyStartGame(state) {
     winner: '',
     isComplete: false
   };
+}
+
+function applyRestartGame(state) {
+  return initialState;
 }
 
 function applyLoadBingo(state, p1Nums, p2Nums) {
@@ -196,6 +209,7 @@ const getNewList = (newBoard, bingoList, num) => {
 
 const actionCreators = {
   startGame,
+  restartGame,
   loadBingo,
   selectNum
 };

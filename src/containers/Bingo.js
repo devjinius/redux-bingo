@@ -31,10 +31,11 @@ class Bingo extends Component {
     if (winner !== '') {
       if (winner === '무승부') {
         alert('무승부입니다');
-        return;
+      } else {
+        alert(`${winner}가 빙고를 완성했습니다.`);
       }
 
-      alert(`${winner}가 빙고를 완성했습니다.`);
+      await this.props.restartGame();
     }
   }
 
@@ -73,6 +74,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
+    restartGame: () => dispatch(actions.restartGame()),
     selectNum: num => dispatch(actions.selectNum(num))
   };
 };
