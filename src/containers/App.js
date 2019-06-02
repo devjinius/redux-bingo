@@ -1,4 +1,5 @@
 import React from 'react';
+import { Helmet } from 'react-helmet';
 
 import BingoContainer from './GameContainer';
 import { Button } from '../components/Button';
@@ -39,6 +40,9 @@ const App = props => {
 
   return (
     <>
+      <Helmet>
+        <title>Bingo</title>
+      </Helmet>
       <header>
         <h1>Hello, This is Bingo</h1>
         <Button clickHandler={startHandler} playingStatus={isPlaying} />
